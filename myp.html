@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airport Search</title>
+	<style>
+	body{
+	 background-color:;
+      font-family:century gothic;
+     // display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+	  background-image:url(airp.jpg)
+	    
+	 
+	
+	}
+	input{
+		
+		padding-bottom:10px;
+		padding-top:10px;
+		border-radius:5px;
+		margin:10px auto;
+		width:100%;
+		font-size:16px;
+	}
+	label{
+	color:white;
+	
+	}
+	.container {
+      width: 400px;
+      margin:0 auto;
+      padding: 30px;
+      border: 3px solid white;
+      border-radius: 15px;
+		// background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
+        //backdrop-filter: blur(5px); /* Apply blur effect */
+	  }
+	  .c2{
+	  width: 100%;
+      margin:0 auto;
+      padding: 10px;
+      //border: 3px solid white;
+    //  border-radius: 6px; 
+	 background-color:#109fc7;
+	  color:white;
+	 // display:none;
+	  }
+	  button{
+	  display: block;
+      margin: 0 auto;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid black;
+      border-radius: 5px;
+      background-color: blue;
+      color: #fff; 	
+	  transition: background-color 0.3s ease;
+	  }
+	  button:hover
+	  {
+	  background-color:orange;
+	  }
+	  h1 {
+      text-align: center;
+      font-size: 45px;
+      margin-bottom: 30px;
+	  color:white;
+	  transition:scale 0.3sec ease;
+	  }
+	</style>
+	
+	
+</head>
+<body>
+	<h1>Find Airports</h1>
+	<div class="container">
+		<label>Search by city </label><br>
+		<input type='text' id='cnm'> <br>
+		<button id='submit'>Search Airports</button><br>
+	
+	
+		<div class="c2">
+			<br> 
+			<b id='c1'></b><br>
+			 <p id='airportList'></p>
+			<!--<p id='reg'>Region:</p>
+			<p id='country'>Country:</p>-->
+			
+		</div>
+	</div>
+    <script>
+        const findAirport = (fa) => {
+            const url = 'https://airports-by-api-ninjas.p.rapidapi.com/v1/airports?city=' + fa;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': 'a358548dcfmshe6fd7d05ea76f9cp1e3b2ejsn6eaff37309d1',
+                    'X-RapidAPI-Host': 'airports-by-api-ninjas.p.rapidapi.com'
+                }
+            };
+
+            fetch(url, options)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    c1.innerHTML = 'Results for - '+'<u>'+fa+'</u>';
+                    displayAirports(data);
+                })
+                .catch(err => console.error(err));
+        };
+
+        const displayAirports = (airports) => {
+           const airportList = document.getElementById('airportList');
+		//    const region = document.getElementById('reg');
+        //const countryName = document.getElementById('country');
+           airportList.innerHTML = "Name of Airports: "+'';
+		  // region.innerHTML = 'Region:';
+     //   countryName.innerHTML = 'Country:';
+
+
+            if (airports.length > 0) {              
+                airports.forEach
+				(airport =>
+					{
+						airportList.innerHTML += airport.name + '<br>';             
+					//	country.innerHTML +=airport.country
+					//	reg.innerHTML +=airport.region
+					}
+				);
+            } 
+			else 
+			{
+                airportList.innerHTML = 'No airports found for this city.';
+            }
+        };
+
+        const submitButton = document.getElementById('submit');
+        const cityInput = document.getElementById('cnm');
+
+        submitButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const cityName = cityInput.value;
+            findAirport(cityName);
+        });
+    </script>
+</body>
+</html>
